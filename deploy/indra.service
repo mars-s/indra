@@ -1,0 +1,31 @@
+# /etc/systemd/system/indra.service
+[Unit]
+Description=Indra homelab dashboard (read-only)
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=indra
+Group=indra
+WorkingDirectory=/opt/indra
+# Root-owned, mode 0600. systemd reads it before dropping to the indra user.
+EnvironmentFile=-/etc/indra/secrets.env
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+# Loopback only. Expose on the tailnet with `tailscale serve --bg 3000`,
+# or change this to the LXC's LAN or tailnet address. Never 0.0.0.0 on a public host.
+Environment=HOSTNAME=127.0.0.1
+Environment=PORT=3000
+ExecStart=/usr/bin/node /opt/indra/server.js
+Restart=on-failure
+RestartSec=5
+
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=-/opt/indra/.next/cache
+
+[Install]
+WantedBy=multi-user.target
