@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Tokens from docs/design-spec.md. The spec measures 2x source pixels, so
+ * 1 CSS px = 2 source px here: sidebar 512 -> 256, corner 24 -> 12,
+ * stage padding 152 -> 76, 2 px hairlines -> 1 px.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-shell: #0e0e10;
+  --color-rim: #202126;
+  --color-line: #28282a;
+  --color-line-subtle: #1b1b1d;
+  --color-raised: #151517;
+  --color-in-use: #171e3a;
+  --color-fg: #f4f4f6;
+  --color-dim: #646368;
+  --color-dim-2: #8a8a8e;
+  --color-meter: #3c5194;
+  --color-meter-bright: #6b8cff;
+  --color-gold: #f5b93f;
+  --color-danger: #f45170;
+  --color-online: #32c591;
+  --color-unreached: #b25566;
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+/* Dark only. A light theme waits for a real light reference (spec: Theme toggle). */
+:root {
+  color-scheme: dark;
+  --background: #0e0e10;
+  --foreground: #f4f4f6;
+  --primary: #f4f4f6;
+  --primary-foreground: #0e0e10;
+  --muted: #151517;
+  --muted-foreground: #646368;
+  --accent: #151517;
+  --accent-foreground: #f4f4f6;
+  --destructive: #f45170;
+  --border: #28282a;
+  --input: #28282a;
+  --ring: #3c5194;
+  --radius: 8px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    background:
+      radial-gradient(60% 45% at 50% 0%, #4a4096 0%, rgb(74 64 150 / 0) 100%),
+      linear-gradient(to bottom right, #393477 0%, #292655 35%, #17152b 70%, #0c0c16 100%);
+    background-color: #17152b;
+    background-attachment: fixed;
+    color: var(--foreground);
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-line) 0 1px,
+    transparent 1px 4px
+  );
+}
